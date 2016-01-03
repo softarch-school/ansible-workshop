@@ -1,0 +1,44 @@
+- hosts: all
+  sudo: true
+
+  vars:
+    hostname: mywordpress
+
+  tasks:
+    - name: ==> 0 - add host info
+      lineinfile: dest=/etc/hosts line="10.0.0.10  {{ hostname }}" state=present
+
+
+    - name: ==> 1 - add PPA of php7 (community)
+      apt_repository: repo="ppa:ondrej/php-7.0"
+
+
+    - debug: ==> 2 - add PPA of nginx (official)
+
+    - name: add Nginx stable repository (deb)
+      apt_repository: >
+        repo='deb http://nginx.org/packages/ubuntu/ trusty nginx'
+        state=present
+
+    - name: add Nginx stable repository (deb-src)
+      apt_repository:
+        repo: 'deb-src http://nginx.org/packages/ubuntu/ trusty nginx'
+        state: present
+
+    - name: add Nginx.org key
+      apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+
+
+    - name: ==> 3 - download/update the package lists
+      apt: update_cache=yes
+
+
+
+    - name: ==> 4 - install nginx
+      apt: name=nginx state=present
+
+    - name: install php-fpm and php-mysql
+      apt: name={{ item }} state=present
+      with_items:
+        - php7.0-fpm
+        - php7.0-mysql
