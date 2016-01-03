@@ -10,6 +10,7 @@ before_install:
 
 script:
     - docker run -d --name wordpress06   wordpress06
+    - sleep 60
     - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress06) ; echo http://$IP:80/ > url
     - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress06
 
