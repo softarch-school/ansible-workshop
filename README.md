@@ -16,20 +16,26 @@ Case study: WordPress.
 - Basic automation via shell script.
 - Step-by-step rewrite to Ansible playbooks.
 - Refactoring.
+- Ansible Galaxy.
 - Continuous integration of infrastructure via Travis CI and CircleCI.
 - Continuous deployment demo with canary deployment.
 
 
 ## Usage
 
-Clone the project:
+1. Fork this project.
 
-```
-git clone https://github.com/softarch-school/ansible-workshop.git
-cd ansible-workshop
-```
+2. Clone your fork:
 
-Then, follow the SOP to be taught in the class (a.k.a., 【圍繞在組態管理技術上的自動化手法 <sup>TM</sup>】） to go through each lab。
+   ```
+   git clone https://github.com/YOUR-ACCOUNT/ansible-workshop.git
+   cd ansible-workshop
+   ```
+
+3. Follow the SOP to be taught in the class
+   (a.k.a., 【圍繞在組態管理技術上的自動化手法 <sup>TM</sup>】）
+   to go through each lab.
+
 
 ## Note for Windows users
 
