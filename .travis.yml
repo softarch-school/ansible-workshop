@@ -6,7 +6,8 @@ before_install:
     - docker info
     - docker version
 
-    - docker build  -f 06-ci/test/Dockerfile  -t wordpress06   06-ci
+    - docker build  -f 06-ci/test/Dockerfile    -t wordpress06   06-ci
+    - docker build  -f 10-role/test/Dockerfile  -t wordpress10   10-role
 
 script:
     - docker run -d --name wordpress06   wordpress06
@@ -14,5 +15,12 @@ script:
     - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress06) ; echo http://$IP:80/ > url
     - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress06
 
+    - docker run -d --name wordpress10   wordpress10
+    - sleep 60
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress10) ; echo http://$IP:80/ > url
+    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress10
+
+
     - echo "==> Validating the test results..."
     - grep '<title>ANSIBLE_TEST' result-wordpress06
+    - grep '<title>ANSIBLE_TEST' result-wordpress10

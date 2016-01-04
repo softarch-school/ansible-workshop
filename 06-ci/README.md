@@ -31,7 +31,7 @@ Ansible Lab #06 - Continuous Integration (CI)
 
 - Fork.
 
-- Modify, and send PR (pull request).
+- Commit & push your changes, and send PR (pull request).
 
 - Check the CI results...
 

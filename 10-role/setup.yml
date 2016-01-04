@@ -1,0 +1,165 @@
+- hosts: all
+  sudo: true
+
+  roles:
+    - nginx
+
+  vars:
+    hostname: mywordpress
+    modify_hostname: true
+    wordpress_version: 4.4
+    wordpress_parent_path: /usr/share
+    wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
+    wordpress_owner: www-data
+    wordpress_group: www-data
+    mysql_root_password: secretsecret
+    wordpress_db_name: wordpress
+    wordpress_db_user: wordpressuser
+    wordpress_db_password: wordpresspassword
+
+
+  handlers:
+    - name: restart php-fpm
+      service: name=php7.0-fpm state=restarted
+
+
+  tasks:
+    - name: ==> 0 - add host info
+      lineinfile: dest=/etc/hosts line="10.0.0.10  {{ hostname }}" state=present
+      when: modify_hostname
+
+
+    - name: ==> 1 - add PPA of php7 (community)
+      apt_repository: repo="ppa:ondrej/php-7.0"
+
+
+    - debug: ==> 2 - add PPA of nginx (official) -- delegated to roles
+
+    - name: ==> 3 - download/update the package lists
+      apt: update_cache=yes
+
+
+    - name: ==> 4 - install php-fpm, and php-mysql
+      apt: name={{ item }} state=present
+      with_items:
+        - php7.0-fpm
+        - php7.0-mysql
+
+
+    - debug: ==> 5 - download and extract wordpress
+
+    - name: download wordpress tarball
+      get_url:
+        url: "https://tw.wordpress.org/wordpress-{{ wordpress_version }}-zh_TW.tar.gz"
+        dest: /tmp/
+
+    - name: extract wordpress tarball
+      unarchive:
+        src: "/tmp/wordpress-{{ wordpress_version }}-zh_TW.tar.gz"
+        dest: "{{ wordpress_parent_path }}"
+        owner: "{{ wordpress_owner }}"
+        group: "{{ wordpress_group }}"
+        copy: no
+
+
+    - debug: ==> 6 - install site conf file for wordpress
+
+    - name: check if "default.conf.bak" target exists
+      stat: path=/etc/nginx/conf.d/default.conf
+      register: filecheck
+
+    - name: rename to "default.conf.bak", if any
+      command: mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
+      when: filecheck.stat.exists
+
+    - name: copy wordpress site conf for nginx
+      template:
+        src: ./templates/nginx-wordpress.conf.j2
+        dest: /etc/nginx/conf.d/nginx-wordpress.conf
+      notify: restart nginx
+
+
+    - debug: ==> 7 - change php-fpm unix socket permission to the same as nginx
+
+    - name: fix listen.owner for php-fpm
+      lineinfile:
+        dest: /etc/php/7.0/fpm/pool.d/www.conf
+        regexp: '^listen.owner\s*=.*$'
+        line: "listen.owner=nginx"
+        state: present
+      notify: restart php-fpm
+
+    - name: fix listen.group for php-fpm
+      lineinfile:
+        dest: /etc/php/7.0/fpm/pool.d/www.conf
+        regexp: '^listen.group\s*=.*$'
+        line: "listen.group=nginx"
+        state: present
+      notify: restart php-fpm
+
+
+
+    - debug: ==> 8 - install mysql
+
+    - name: auto set root password for mysql
+      debconf:
+        name: 'mysql-server'
+        question: "{{ item }}"
+        vtype: 'password'
+        value: "{{ mysql_root_password }}"
+      with_items:
+        - mysql-server/root_password
+        - mysql-server/root_password_again
+
+    - name: install mysql
+      apt: name={{ item }} state=present
+      with_items:
+        - mysql-server
+        - mysql-client
+
+
+    - debug: ==> 9 - create initial wordpress db
+
+    - name: install prerequisite for Ansible's mysql modules
+      apt: name=python-mysqldb state=present
+
+    - name: create wordpress db
+      mysql_db:
+        name: "{{ wordpress_db_name }}"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        state: present
+
+    - name: create wordpress user
+      mysql_user:
+        name:     "{{ wordpress_db_user }}"
+        password: "{{ wordpress_db_password }}"
+        priv:     "{{ wordpress_db_name }}.*:ALL"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        state: present
+
+
+    - name: ==> 10 - set wordpress config
+      template:
+        src: ./templates/wp-config.php.j2
+        dest: "{{ wordpress_path }}/wp-config.php"
+        owner: "{{ wordpress_owner }}"
+        group: "{{ wordpress_group }}"
+      notify: restart nginx
+
+
+
+    - name: DEBUG
+      command: echo "{{ hostname }}"
+
+    #- debug: ==> 11 - restart nginx
+
+
+    #- name: ==> 12 - automate the '5-minute install' process
+    #  uri:
+    #    url: "{{ wordpress_install_url }}"
+    #    method: POST
+    #    HEADER_Content-Type: "application/x-www-form-urlencoded"
+    #    body: "#weblog_title=ANSIBLE_TEST&user_name=admin&admin_email=foo@gmail.#com&blog_public=true&admin_password=admin&admin_password2=admin"
+    #    status_code: 200

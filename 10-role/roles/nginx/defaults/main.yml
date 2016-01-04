@@ -1,0 +1,5 @@
+---
+# file: defaults/main.yml
+
+nginx_owner: nginx
+nginx_group: nginx

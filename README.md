@@ -8,18 +8,34 @@ Ansible Workshop - Hands-On Materials
 Course info: http://get.soft-arch.net/ansible
 
 
+
+## Contents
+
+Case study: WordPress.
+
+- Basic automation via shell script.
+- Step-by-step rewrite to Ansible playbooks.
+- Refactoring.
+- Continuous integration of infrastructure via Travis CI and CircleCI.
+- Continuous deployment demo with canary deployment.
+
+
 ## Usage
 
 Clone the project:
 
 ```
-git clone https://github.com/William-Yeh/ansible-workshop.git
+git clone https://github.com/softarch-school/ansible-workshop.git
 cd ansible-workshop
 ```
 
-If you're using platforms *without* native support for Ansible (e.g., Windows), use the following procedure to gain access to the Ansible **control machine**:
+Then, follow the SOP to be taught in the class (a.k.a., 【圍繞在組態管理技術上的自動化手法 <sup>TM</sup>】） to go through each lab。
 
-On the **host machine**:
+## Note for Windows users
+
+If you're using platforms *without* native support for Ansible (e.g., on Windows), use the following procedure to gain access to the Ansible **control machine**.
+
+First, on the **host machine**, do the following to login to the Ansible control machine:
 
 ```
 cd control-machine
@@ -27,14 +43,14 @@ vagrant up
 vagrant ssh
 ```
 
-Once you login to the **guest machine** (i.e., the Ansible **control machine** within a VM):
+Once you login to the **guest machine** (i.e., the Ansible **control machine** within a VM), you'll see the whole project files in the VM's `/vagrant` directory:
 
 ```
 cd /vagrant
 ls -al
 ```
 
-You'll see the whole project files in the VM's `/vagrant` directory.
+
 
 ## License
 

@@ -1,0 +1,22 @@
+---
+# file: tasks/main.yml
+# Top-level installer for Nginx.
+#
+# @see http://wiki.nginx.org/Install
+#
+
+- name: add Nginx stable repository (deb)
+  apt_repository: >
+    repo='deb http://nginx.org/packages/ubuntu/ trusty nginx'
+    state=present
+
+- name: add Nginx stable repository (deb-src)
+  apt_repository:
+    repo: 'deb-src http://nginx.org/packages/ubuntu/ trusty nginx'
+    state: present
+
+- name: add Nginx.org key
+  apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+
+- name: install nginx
+  apt: name=nginx state=present update_cache=yes
