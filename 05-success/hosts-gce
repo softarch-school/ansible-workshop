@@ -1,0 +1,6 @@
+# gce-host
+
+[wordpress]
+mywordpress    ansible_ssh_host=104.0.0.100
+#mywordpress   ansible_host=104.0.0.100
+

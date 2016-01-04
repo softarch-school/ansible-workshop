@@ -1,0 +1,6 @@
+# ec2-host
+
+[wordpress]
+111.111.111.111   ansible_ssh_user=ubuntu
+#111.111.111.111  ansible_user=ubuntu
+
