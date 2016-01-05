@@ -37,6 +37,10 @@ See (again!): Ansible official document - [Best Practices](http://docs.ansible.c
 
 - List your choices in `requirements.yml`.
 
+- Now, your `roles` directory should be empty by default.
+
+- Now, your **main playbook** shouldn't have any `include` statement.
+
 - Make your **main playbook** as small as possible; **ideally less than 5 tasks**.
 
 - If there's no appropriate roles in Ansible Galaxy, contribute YOURS to Ansible Galaxy!
