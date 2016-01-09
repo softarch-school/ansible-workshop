@@ -1,0 +1,38 @@
+- hosts: all
+  sudo: true
+
+  vars:
+    hostname: mywordpress
+    modify_hostname: true
+
+
+  handlers:
+    - name: reload haproxy
+      service: name=haproxy state=reloaded
+
+
+  tasks:
+    - name: ==> 0 - add host info
+      lineinfile: dest=/etc/hosts line="10.0.0.10  {{ hostname }}" state=present
+      when: modify_hostname
+
+
+    - name: ==> install HAProxy
+      apt: name=haproxy state=present update_cache=yes
+
+    - name: enable HAProxy at system power on
+      service: name=haproxy enabled=yes
+
+    - name: enable HAProxy
+      lineinfile:
+        dest:   /etc/default/haproxy
+        regexp: '^ENABLED\s*=.*$'
+        line:   "ENABLED=1"
+        state:  present
+
+    - name: copy HAProxy config file
+      template:
+        src:  templates/haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+      notify:
+        - reload haproxy

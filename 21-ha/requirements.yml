@@ -1,0 +1,3 @@
+- # @see https://galaxy.ansible.com/detail#/role/2245
+  src: williamyeh.nginx
+  path: roles/

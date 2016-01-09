@@ -1,0 +1,66 @@
+- hosts: all
+  sudo: true
+
+  vars:
+    mysql_root_password: secretsecret
+    wordpress_db_name: wordpress
+    wordpress_db_user: wordpressuser
+    wordpress_db_password: wordpresspassword
+
+
+  handlers:
+    - name: restart mysql
+      service: name=mysql state=restarted
+
+
+  tasks:
+    - debug: ==> 8 - install mysql
+
+    - name: auto set root password for mysql
+      debconf:
+        name: 'mysql-server'
+        question: "{{ item }}"
+        vtype: 'password'
+        value: "{{ mysql_root_password }}"
+      with_items:
+        - mysql-server/root_password
+        - mysql-server/root_password_again
+
+    - name: install mysql
+      apt: name={{ item }} state=present update_cache=yes
+      with_items:
+        - mysql-server
+        - mysql-client
+
+    - name: allow mysqld to listen to all network interface
+      lineinfile:
+        dest:   /etc/mysql/my.cnf
+        regexp: '^bind-address\s*=.*$'
+        line:   "bind-address = 0.0.0.0"
+        state:  present
+      notify: restart mysql
+
+
+
+
+    - debug: ==> 9 - create initial wordpress db
+
+    - name: install prerequisite for Ansible's mysql modules
+      apt: name=python-mysqldb state=present
+
+    - name: create wordpress db
+      mysql_db:
+        name: "{{ wordpress_db_name }}"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        state: present
+
+    - name: create wordpress user
+      mysql_user:
+        name:     "{{ wordpress_db_user }}"
+        password: "{{ wordpress_db_password }}"
+        priv:     "{{ wordpress_db_name }}.*:ALL"
+        host:     '%'
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        state: present
