@@ -56,6 +56,7 @@ cd /vagrant
 ls -al
 ```
 
+For step-by-step instruction, watch my 14-minute video: 【[在 Windows 上也能使用 Ansible](http://school.soft-arch.net/courses/ansible/lectures/659421)】.
 
 
 ## License

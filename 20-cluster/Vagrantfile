@@ -1,0 +1,58 @@
+Vagrant.configure("2") do |config|
+
+    # main & default: normal OS series...
+    config.vm.define "main", primary: true do |node|
+        node.vm.box = "ubuntu/trusty64"
+        node.vm.network "private_network", ip: "10.0.0.10"
+
+        node.vm.provision "ansible" do |ansible|
+            ansible.playbook = "wordpress.yml"
+            ansible.sudo = true
+        end
+ 
+        node.vm.provider "virtualbox" do |vb|
+            vb.customize ["modifyvm", :id, "--memory", "256"]
+        end
+    end
+
+    config.vm.define "db" do |node|
+        node.vm.box = "ubuntu/trusty64"
+        node.vm.network "private_network", ip: "10.0.0.20"
+
+        node.vm.provision "ansible" do |ansible|
+            ansible.playbook = "db.yml"
+            ansible.sudo = true
+        end
+
+        node.vm.provider "virtualbox" do |vb|
+            ##vb.customize ["modifyvm", :id, "--memory", "256"]
+        end
+    end
+
+
+
+    # docker: for auto build & testing (e.g., Travis CI)
+    config.vm.define "docker" do |node|
+        node.vm.box = "williamyeh/ubuntu-trusty64-docker"
+
+        node.vm.provision "shell", inline: <<-SHELL
+            cd /vagrant
+
+            docker build  -f test/Dockerfile-db  -t db   .
+            docker run -d --name db  db
+            IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' db) ; echo MYSQL_ADDRESS=$IP > db-ip
+            sleep 60
+
+            docker build  -f test/Dockerfile-wordpress  -t wordpress   .
+            docker run -d --name wordpress  -e `cat db-ip`  wordpress
+            sleep 300
+
+            IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+            cat url  |  xargs -t -n 1 curl -v -o result-wordpress
+
+            echo "==> Validating the test results..."
+            grep '<title>ANSIBLE_TEST' result-wordpress
+        SHELL
+    end
+
+end
