@@ -37,7 +37,7 @@ script:
     - docker run -d --name wordpress20  -e `cat db-ip`  wordpress20
     - sleep 300
 
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress20) ; echo http://$IP:80/ > url
     - cat url  |  xargs -t -n 1 curl -v -o result-wordpress20
 
 
