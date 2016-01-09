@@ -10,8 +10,8 @@ before_install:
     - docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
     - docker build  -f 11-galaxy/test/Dockerfile  -t wordpress11   11-galaxy
 
-    - docker build  -f 20-cluster/test/Dockerfile-db         -t db20        20-cluster
-    - docker build  -f 20-cluster/test/Dockerfile-wordpress  -t wordpress   20-cluster
+    - docker build  -f 20-cluster/test/Dockerfile-db         -t db20          20-cluster
+    - docker build  -f 20-cluster/test/Dockerfile-wordpress  -t wordpress20   20-cluster
 
 script:
     - docker run -d --name wordpress06   wordpress06
