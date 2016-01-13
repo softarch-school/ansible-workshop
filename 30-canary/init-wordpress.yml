@@ -1,5 +1,5 @@
 - hosts: all
-  sudo: true
+  become: true
 
   vars:
     hostname: mywordpress
@@ -10,7 +10,7 @@
     blog_email: foo@gmail.com
 
   tasks:
-    - debug: ==> 12 - automate the '5-minute install' process
+    - debug: msg="==> 12 - automate the '5-minute install' process"
 
     - name: install dependency - httplib2
       apt: name=python-httplib2 state=present

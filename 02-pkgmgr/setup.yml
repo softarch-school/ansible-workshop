@@ -1,5 +1,5 @@
 - hosts: all
-  sudo: true
+  become: true
 
   vars:
     hostname: mywordpress
@@ -13,7 +13,7 @@
       apt_repository: repo="ppa:ondrej/php-7.0"
 
 
-    - debug: ==> 2 - add PPA of nginx (official)
+    - debug: msg="==> 2 - add PPA of nginx (official)"
 
     - name: add Nginx stable repository (deb)
       apt_repository: >

@@ -1,5 +1,5 @@
 - hosts: all
-  sudo: true
+  become: true
 
   roles:
     - nginx
@@ -33,7 +33,7 @@
       apt_repository: repo="ppa:ondrej/php-7.0"
 
 
-    - debug: ==> 2 - add PPA of nginx (official) -- delegated to roles
+    - debug: msg="==> 2 - add PPA of nginx (official) -- delegated to roles"
 
     - name: ==> 3 - download/update the package lists
       apt: update_cache=yes
@@ -46,7 +46,7 @@
         - php7.0-mysql
 
 
-    - debug: ==> 5 - download and extract wordpress
+    - debug: msg="==> 5 - download and extract wordpress"
 
     - name: download wordpress tarball
       get_url:
@@ -62,7 +62,7 @@
         copy: no
 
 
-    - debug: ==> 6 - install site conf file for wordpress
+    - debug: msg="==> 6 - install site conf file for wordpress"
 
     - name: check if "default.conf.bak" target exists
       stat: path=/etc/nginx/conf.d/default.conf
@@ -79,7 +79,7 @@
       notify: restart nginx
 
 
-    - debug: ==> 7 - change php-fpm unix socket permission to the same as nginx
+    - debug: msg="==> 7 - change php-fpm unix socket permission to the same as nginx"
 
     - name: fix listen.owner for php-fpm
       lineinfile:
@@ -99,7 +99,7 @@
 
 
 
-    - debug: ==> 8 - install mysql
+    - debug: msg="==> 8 - install mysql"
 
     - name: auto set root password for mysql
       debconf:
@@ -118,7 +118,7 @@
         - mysql-client
 
 
-    - debug: ==> 9 - create initial wordpress db
+    - debug: msg="==> 9 - create initial wordpress db"
 
     - name: install prerequisite for Ansible's mysql modules
       apt: name=python-mysqldb state=present
@@ -153,7 +153,7 @@
     - name: DEBUG
       command: echo "{{ hostname }}"
 
-    #- debug: ==> 11 - restart nginx
+    #- debug: msg="==> 11 - restart nginx"
 
 
     #- name: ==> 12 - automate the '5-minute install' process

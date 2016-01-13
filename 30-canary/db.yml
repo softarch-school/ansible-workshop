@@ -1,5 +1,5 @@
 - hosts: all
-  sudo: true
+  become: true
 
   vars:
     mysql_root_password: secretsecret
@@ -14,7 +14,7 @@
 
 
   tasks:
-    - debug: ==> 8 - install mysql
+    - debug: msg="==> 8 - install mysql"
 
     - name: auto set root password for mysql
       debconf:
@@ -43,7 +43,7 @@
 
 
 
-    - debug: ==> 9 - create initial wordpress db
+    - debug: msg="==> 9 - create initial wordpress db"
 
     - name: install prerequisite for Ansible's mysql modules
       apt: name=python-mysqldb state=present
