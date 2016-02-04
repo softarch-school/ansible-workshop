@@ -17,7 +17,7 @@ See (again!): Ansible official document - [Best Practices](http://docs.ansible.c
 
 ### 用到的 Ansible Galaxy role(s)
 
-- [`williamyeh.nginx`](https://galaxy.ansible.com/detail#/role/2245)
+- [`williamyeh.nginx`](https://galaxy.ansible.com/williamyeh/nginx/)
 
 
 ## It's your turn...
