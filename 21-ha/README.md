@@ -4,6 +4,15 @@ Ansible Lab #21 - High Availability
 
 ## 實習重點
 
+### Topology
+
+- `lb` (load balancer): 10.0.0.10
+- `app1`: 10.0.0.30
+- `app2`: 10.0.0.31
+- `app3`: 10.0.0.32
+- `db`: 10.0.0.20
+
+
 ### Identify service dependencies
 
 ### Vagrant techniques

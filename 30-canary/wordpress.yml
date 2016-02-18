@@ -7,7 +7,7 @@
   vars:
     hostname: mywordpress
     modify_hostname: true
-    wordpress_version: 4.4
+    wordpress_version: 4.4.2
     wordpress_parent_path: /usr/share
     wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
     wordpress_owner: www-data
@@ -56,14 +56,25 @@
         copy: no
 
 
-    - name: ===> !!!!!! DEPLOY NEW WORDPRESS CODE...
+    ##===> !!!!!!
+
+    - pause: prompt="About to 'DEPLOY NEW WORDPRESS CODE'..."
+      when: wordpress_new is defined
+
+    - name: DEPLOY NEW WORDPRESS CODE
       copy:
         src: files/header.php
         dest: "{{ wordpress_path }}/wp-content/themes/twentysixteen/header.php"
+        owner: "{{ wordpress_owner }}"
+        group: "{{ wordpress_group }}"
       notify:
         - restart php-fpm
       when: wordpress_new is defined
 
+    - pause: prompt="Finished - 'DEPLOY NEW WORDPRESS CODE'..."
+      when: wordpress_new is defined
+
+    ##===> !!!!!!
 
 
     - debug: msg="==> 6 - install site conf file for wordpress"

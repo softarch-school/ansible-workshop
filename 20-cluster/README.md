@@ -6,6 +6,12 @@ Ansible Lab #20 - Cluster
 
 ## 實習重點
 
+### Topology
+
+- `main`: 10.0.0.10
+- `db`: 10.0.0.20
+
+
 ### Identify service dependencies
 
 

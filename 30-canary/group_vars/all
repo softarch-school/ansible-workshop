@@ -3,6 +3,8 @@
 
 mysql_address: 10.0.0.20
 
+haproxy_sock_path: /var/run/haproxy.sock
+
 app_servers:
   - name: app1
     address: 10.0.0.30

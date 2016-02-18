@@ -1,0 +1,52 @@
+- hosts: all
+  become: true
+  serial: 1
+
+  vars:
+    wordpress_parent_path: /usr/share
+    wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
+    wordpress_owner: www-data
+    wordpress_group: www-data
+
+
+  handlers:
+    - name: restart php-fpm
+      service: name=php7.0-fpm state=restarted
+
+
+  tasks:
+
+    #- debug: var=inventory_hostname
+    #
+    #- name: debug haproxy
+    #  command: "ifconfig -a" 
+    #  delegate_to: lb
+
+    - name: disable HAProxy for this app server under updating
+      haproxy:
+        state: disabled
+        host: "{{ inventory_hostname }}"
+        #backend: wordpress-app
+        socket:  "{{ haproxy_sock_path }}"
+      delegate_to: lb
+
+
+    - name: DEPLOY NEW WORDPRESS CODE
+      copy:
+        src: files/header.php
+        dest: "{{ wordpress_path }}/wp-content/themes/twentysixteen/header.php"
+        owner: "{{ wordpress_owner }}"
+        group: "{{ wordpress_group }}"
+      notify:
+        - restart php-fpm
+
+    - meta: flush_handlers
+
+
+    - name: enable HAProxy for this app server after updating
+      haproxy:
+        state: enabled
+        host: "{{ inventory_hostname }}"
+        #backend: wordpress-app
+        socket:  "{{ haproxy_sock_path }}"
+      delegate_to: lb

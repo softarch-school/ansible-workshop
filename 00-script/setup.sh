@@ -31,8 +31,8 @@ sudo apt-get install -y php7.0-fpm php7.0-mysql nginx
 
 echo "==> 5 - download and extract wordpress"
 cd /tmp
-wget https://tw.wordpress.org/wordpress-4.4-zh_TW.tar.gz
-sudo tar zxvf wordpress-4.4-zh_TW.tar.gz -C /usr/share
+wget https://tw.wordpress.org/wordpress-4.4.2-zh_TW.tar.gz
+sudo tar zxvf wordpress-4.4.2-zh_TW.tar.gz -C /usr/share
 sudo chown -R www-data:www-data /usr/share/wordpress
 
 

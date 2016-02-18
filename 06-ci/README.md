@@ -17,8 +17,8 @@ Ansible Lab #06 - Continuous Integration (CI)
   - See "[編譯示範／從源碼建 image](http://william-yeh.github.io/docker-workshop/slides/build-pl.html)" in my Docker Workshop.
 
 - Free CI services for OSS
-  - [Travis CI](https://travis-ci.org/)
-  - [CircleCI](https://circleci.com/)
+  - [Travis CI](https://travis-ci.org/); see the [`.travis.yml`](../.travis.yml) file at the project root directory.
+  - [CircleCI](https://circleci.com/); see the [`circle.yml`](../circle.yml) file at the project root directory.
 
 
 ### 用到的 Docker image

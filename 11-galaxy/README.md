@@ -43,6 +43,6 @@ See (again!): Ansible official document - [Best Practices](http://docs.ansible.c
 
 - Make your **main playbook** as small as possible; **ideally less than 5 tasks**.
 
-- If there's no appropriate roles in Ansible Galaxy, contribute YOURS to Ansible Galaxy!
+- If there's no appropriate role in Ansible Galaxy, contribute YOURS to Ansible Galaxy!
 
-- Of course, your results should pass our CI systems.
+- Of course, your results should pass all checks enforced by our CI systems.

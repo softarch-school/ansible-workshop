@@ -14,6 +14,7 @@ Ansible Lab #03 - App Deployment
 ### Pursue for idempotence
 
 - Register variables
+- Conditions (`when` in this example)
 - Handlers (to be discussed later in Lab #05)
 
 
