@@ -1,0 +1,16 @@
+sudo: true
+services:
+    - docker
+
+before_install:
+    - docker info
+    - docker version
+    - docker build  -f test/Dockerfile  -t wordpress   .
+
+script:
+    - docker run -d --name wordpress  wordpress
+
+    - echo "==> Done."
+
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
