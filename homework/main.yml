@@ -1,0 +1,39 @@
+- hosts: all
+  become: true
+
+  vars:
+    vagrant_ip: 10.0.0.10
+    hostname: mywordpress
+    modify_hostname: true
+    wp5minute_install: true
+    wordpress_version: 4.4.2
+    wordpress_parent_path: /usr/share
+    wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
+    wordpress_owner: www-data
+    wordpress_group: www-data
+    mysql_root_password: secretsecret
+    wordpress_db_name: wordpress
+    wordpress_db_user: wordpressuser
+    wordpress_db_password: wordpresspassword
+    wordpress_install_url: "http://{{ hostname }}/wp-admin/install.php?step=2"
+    blog_title: ANSIBLE_TEST
+    blog_user: admin
+    blog_password: admin
+    blog_email: foo@gmail.com
+    mysql_databases:
+      - name: "{{ wordpress_db_name }}"
+        collation: utf8_general_ci
+        encoding: utf8
+        replicate: 1
+
+    mysql_users:
+      - name: "{{ wordpress_db_user }}"
+        host: localhost
+        password: "{{ wordpress_db_password }}"
+        priv: "{{ wordpress_db_name }}.*:ALL"
+
+  roles:
+    - williamyeh.nginx
+    - geerlingguy.mysql
+    - theqwan-chengwei.ubuntuphpfpm7
+    - theqwan-chengwei.installwordpress

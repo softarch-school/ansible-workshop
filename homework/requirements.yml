@@ -1,0 +1,12 @@
+- # @see https://galaxy.ansible.com/williamyeh/nginx/
+  src: williamyeh.nginx
+  path: roles/
+
+- src: geerlingguy.mysql
+  path: roles/
+
+- src: theqwan-chengwei.ubuntuphpfpm7
+  path: roles/
+
+- src: theqwan-chengwei.installwordpress
+  path: roles/
