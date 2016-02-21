@@ -11,4 +11,20 @@ Vagrant.configure("2") do |config|
         end
     end
 
+        # docker: for auto build & testing (e.g., Travis CI)
+    config.vm.define "docker" do |node|
+        node.vm.box = "williamyeh/ubuntu-trusty64-docker"
+
+        node.vm.provision "shell", inline: <<-SHELL
+            cd /vagrant
+            docker build  -f test/Dockerfile  -t wordpress   .
+            docker run -d --name wordpress  wordpress
+            sleep 60
+            IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+            cat url  |  xargs -t -n 1 curl -v -o result-wordpress
+            echo "==> Validating the test results..."
+            grep '<title>' result-wordpress
+        SHELL
+    end
+
 end
