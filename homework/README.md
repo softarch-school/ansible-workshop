@@ -1,32 +1,23 @@
-Ansible Lab #10 - Roles
+Ansible Lab #11 - 挑戰題
 ===
 
-[![Circle CI](https://circleci.com/gh/softarch-school/ansible-workshop.svg?style=shield)](https://circleci.com/gh/softarch-school/ansible-workshop) [![Build Status](https://travis-ci.org/softarch-school/ansible-workshop.svg?branch=master)](https://travis-ci.org/softarch-school/ansible-workshop)
+[![Circle CI](https://circleci.com/gh/theqwan-chengwei/ansible-workshop.svg?style=shield)](https://circleci.com/gh/theqwan-chengwei/ansible-workshop) [![Build Status](https://travis-ci.org/theqwan-chengwei/ansible-workshop.svg?branch=master)](https://travis-ci.org/theqwan-chengwei/ansible-workshop)
+builds
 
+## 題目如下
 
-## 實習重點
+(Continued from Lab #10) Don't reinvent the wheel; use existing roles from Ansible Galaxy:
 
+- Explore and experiment with roles in Ansible Galaxy.
 
-### Directory layout
+- List your choices in `requirements.yml`.
 
-See (again!): Ansible official document - [Best Practices](http://docs.ansible.com/ansible/playbooks_best_practices.html#directory-layout)
+- Now, your `roles` directory should be empty by default.
 
+- Now, your **main playbook** shouldn't have any `include` statement.
 
+- Make your **main playbook** as small as possible; **ideally less than 5 tasks**.
 
-## It's your turn...
+- If there's no appropriate role in Ansible Galaxy, contribute YOURS to Ansible Galaxy!
 
-- Fork.
-
-- Commit & push your changes, and send PR (pull request).
-
-- Check the CI results...
-
-
-## 想接受挑戰嗎？
-
-- Move the steps for setting `/etc/nginx/conf.d/` to the `nginx` role.
-
-  FYI, see [williamyeh.nginx](https://github.com/William-Yeh/ansible-nginx).
-
-
-- Try to refactor into more roles, in addition to `nginx`.
+- Of course, your results should pass all checks enforced by our CI systems.
