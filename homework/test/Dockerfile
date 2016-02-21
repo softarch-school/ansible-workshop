@@ -26,7 +26,7 @@ RUN sed -i -e 's/exit\s\s*101/exit 0/' /usr/sbin/policy-rc.d
 
 
 ENV PLAYBOOK main.yml
-RUN ansible-playbook-wrapper -vvv --extra-vars "vagrant_ip=127.0.0.1"
+RUN ansible-playbook-wrapper -vvv --extra-vars "modify_hostname=false" --extra-vars "wp5minute_install=false"
 
 EXPOSE 80
 
