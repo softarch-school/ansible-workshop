@@ -7,51 +7,51 @@ dependencies:
     - docker info
     - docker version
 
-    - docker build  -f 06-ci/test/Dockerfile      -t wordpress06   06-ci
-    - docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
-    - docker build  -f 10-role/test/Dockerfile    -t wordpress_homework   homework
-    - docker build  -f 11-galaxy/test/Dockerfile  -t wordpress11   11-galaxy
+    # - docker build  -f 06-ci/test/Dockerfile      -t wordpress06   06-ci
+    # - docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
+    - docker build  -f homework/test/Dockerfile    -t wordpress_homework   homework
+    # - docker build  -f 11-galaxy/test/Dockerfile  -t wordpress11   11-galaxy
 
-    - docker build  -f 20-cluster/test/Dockerfile-db         -t db20          20-cluster
-    - docker build  -f 20-cluster/test/Dockerfile-wordpress  -t wordpress20   20-cluster
+    # - docker build  -f 20-cluster/test/Dockerfile-db         -t db20          20-cluster
+    # - docker build  -f 20-cluster/test/Dockerfile-wordpress  -t wordpress20   20-cluster
 
 test:
   override:
-    - docker run -d --name wordpress06   wordpress06
-    - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress06) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress06
+    # - docker run -d --name wordpress06   wordpress06
+    # - sleep 60
+    # - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress06) ; echo http://$IP:80/ > url
+    # - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress06
 
-    - docker run -d --name wordpress10   wordpress10
-    - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress10) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress10
+    # - docker run -d --name wordpress10   wordpress10
+    # - sleep 60
+    # - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress10) ; echo http://$IP:80/ > url
+    # - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress10
 
-    - docker run -d --name wordpress10   wordpress_homework
+    - docker run -d --name wordpress_homework   wordpress_homework
     - sleep 60
     - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress_homework) ; echo http://$IP:80/ > url
     - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress_homework
 
-    - docker run -d --name wordpress11   wordpress11
-    - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress11) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress11
+    # - docker run -d --name wordpress11   wordpress11
+    # - sleep 60
+    # - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress11) ; echo http://$IP:80/ > url
+    # - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress11
 
 
-    - docker run -d --name db20  db20
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' db20) ; echo MYSQL_ADDRESS=$IP > db-ip
-    - sleep 60
+    # - docker run -d --name db20  db20
+    # - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' db20) ; echo MYSQL_ADDRESS=$IP > db-ip
+    # - sleep 60
 
-    - docker run -d --name wordpress20  -e `cat db-ip`  wordpress20
-    - sleep 300
+    # - docker run -d --name wordpress20  -e `cat db-ip`  wordpress20
+    # - sleep 300
 
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress20) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v -o result-wordpress20
+    # - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress20) ; echo http://$IP:80/ > url
+    # - cat url  |  xargs -t -n 1 curl -v -o result-wordpress20
 
 
     - echo "==> Validating the test results..."
-    - grep '<title>ANSIBLE_TEST' result-wordpress06
-    - grep '<title>ANSIBLE_TEST' result-wordpress10
+    # - grep '<title>ANSIBLE_TEST' result-wordpress06
+    # - grep '<title>ANSIBLE_TEST' result-wordpress10
     - grep '<title>ANSIBLE_TEST' result-wordpress_homework
-    - grep '<title>ANSIBLE_TEST' result-wordpress11
-    - grep '<title>ANSIBLE_TEST' result-wordpress20
+    # - grep '<title>ANSIBLE_TEST' result-wordpress11
+    # - grep '<title>ANSIBLE_TEST' result-wordpress20
