@@ -8,9 +8,10 @@ before_install:
     - docker build  -f test/Dockerfile  -t wordpress   .
 
 script:
-    - docker run -d --name wordpress  wordpress
-
-    - echo "==> Done."
-
+    - docker run -d --name wordpress wordpress
+    - sleep 60
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress
+    - grep '<title>' result-wordpress
 notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
