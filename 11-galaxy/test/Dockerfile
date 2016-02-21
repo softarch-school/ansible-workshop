@@ -29,7 +29,7 @@ ENV PLAYBOOK setup.yml
 #RUN ansible-playbook-wrapper
 RUN ansible-playbook-wrapper -vvv --extra-vars "modify_hostname=false"
 
-#ENV PLAYBOOK init-wordpress.yml
+ENV PLAYBOOK init-wordpress.yml
 #RUN ansible-playbook-wrapper -vvv --extra-vars `cat /tmp/WP_HOSTNAME`
 
 EXPOSE 80
