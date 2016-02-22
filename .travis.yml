@@ -28,7 +28,10 @@ script:
     - docker run -d --name wordpress_homework   wordpress_homework
     - sleep 60
     - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress_homework) ; echo http://$IP:80/ > url
+    - echo $IP
+    - cat url
     - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress_homework
+    - cat result-wordpress_homework
 
     # - docker run -d --name wordpress11   wordpress11
     # - sleep 60
