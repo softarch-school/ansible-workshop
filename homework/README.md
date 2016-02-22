@@ -27,9 +27,9 @@ Ansible Lab #11 - 挑戰題
 
 - 其實不難，因為原本的 workshop 就已經提供了一切會用到的 ansible tasks
 - 所以如果要偷吃步，就是把 workshop 原本的 tasks 組合成自己的 role 一整包丟上 Ansible Galaxy。
-- 個人則是一邊按著題目一邊偷吃步。
+- 個人則是一邊按著題目建議，一邊偷吃步。
 - 偷吃步直接用講師做好放在 Ansible Galaxy 的 nginx role
-- 再先搜尋 Ansible Galaxy 找到合適的 mysql role
+- 再搜尋 Ansible Galaxy 找到合適的 mysql role
 - 找不到合適的 php7.0-fpm 的 role，所以自己就複製 workshop 的 tasks 建了一個，丟上 Ansible Galaxy。
 - 同樣找不到合適的 wordpress install role，所以複製 workshop 的 tasks 建了一個，丟上 Ansible Galaxy。
 - 反覆測試，處理幾個小地雷，調整了一下 vars。
