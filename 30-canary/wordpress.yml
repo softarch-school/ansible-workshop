@@ -24,7 +24,7 @@
 
   tasks:
     - name: ==> 1 - add PPA of php7 (community)
-      apt_repository: repo="ppa:ondrej/php-7.0"
+      apt_repository: repo="ppa:ondrej/php"
 
 
     - debug: msg="==> 2 - add PPA of nginx (official) -- delegated to roles"
