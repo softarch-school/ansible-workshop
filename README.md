@@ -13,11 +13,19 @@ Course info: http://get.soft-arch.net/ansible
 
 Case study: WordPress.
 
+
+### Basic configuration level
+
 - Basic automation via shell script.
-- Step-by-step rewrite to Ansible playbooks.
+- Step-by-step rewritten to workable Ansible playbooks.
 - Refactoring.
 - Ansible Galaxy.
 - Continuous integration of infrastructure via Travis CI and CircleCI.
+
+### Advanced architecture level
+
+- Cluster architecture.
+- HA (high availability) architecture.
 - Continuous deployment demo with canary deployment.
 
 
