@@ -30,6 +30,9 @@ backend wordpress-app
     balance      roundrobin
     option       forwardfor
 
+    #
+    # Array: app_servers
+    #
     {% for host in app_servers %}
     server   {{ host['name'] }}   {{ host['address'] }}:{{ host['port'] }}  check
     {% endfor %}

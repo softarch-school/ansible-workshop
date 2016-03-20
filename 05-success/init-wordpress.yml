@@ -16,6 +16,7 @@
       apt: name=python-httplib2 state=present
       #pip: name=httplib2
 
+    # like POST, curl --data, ....
     - name: send POST to WordPress install wizard
       uri:
         url: "{{ wordpress_install_url }}"
