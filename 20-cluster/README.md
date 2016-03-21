@@ -46,6 +46,4 @@ Separated by...
 
 - Avoid the "all hosts" `%` setting in the MySQL `GRANT PRIVILEGES` statement.
 
-- Use the [container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) feature of Docker to simplify the testing Dockerfiles.
-
 - Use [Docker Compose](https://github.com/docker/compose) to simplify the testing job.

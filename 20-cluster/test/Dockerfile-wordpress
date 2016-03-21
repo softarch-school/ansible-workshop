@@ -28,6 +28,9 @@ RUN sed -i -e 's/exit\s\s*101/exit 0/' /usr/sbin/policy-rc.d
 # ==> Specify requirements filename;  default = "requirements.yml"
 #ENV REQUIREMENTS  requirements.yml
 
+ENV PLAYBOOK wordpress.yml
+RUN ansible-playbook-wrapper  \
+      --extra-vars "modify_hostname=false mysql_address=MYSQL_ADDRESS"
 
 EXPOSE 80
 
@@ -37,9 +40,10 @@ EXPOSE 80
 #
 
 CMD \
-    PLAYBOOK=wordpress.yml  ansible-playbook-wrapper  \
-      --extra-vars "modify_hostname=false mysql_address=$MYSQL_ADDRESS"  && \
-    IP=`head -n 1 /etc/hosts | sed 's/\t.*//'`                           && \
-    PLAYBOOK=init-wordpress.yml  ansible-playbook-wrapper -vvv \
-        --extra-vars `echo hostname=$IP`                                 && \
+    service php7.0-fpm start                      && \
+    service nginx start                           && \
+    IP=`head -n 1 /etc/hosts | sed 's/\t.*//'`    && \
+    PLAYBOOK=init-wordpress.yml      \
+       ansible-playbook-wrapper -vvv \
+         --extra-vars `echo hostname=$IP`         && \
     tail -f /dev/null
