@@ -10,7 +10,9 @@ dependencies:
     - docker build  -f 06-ci/test/Dockerfile      -t wordpress06   06-ci
     - docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
     - docker build  -f 11-galaxy/test/Dockerfile  -t wordpress11   11-galaxy
-    - docker build  -f 20-cluster/test/Dockerfile -t wordpress20   20-cluster
+
+    - docker build  -f 20-cluster/test/Dockerfile-db         -t db20          20-cluster
+    - docker build  -f 20-cluster/test/Dockerfile-wordpress  -t wordpress20   20-cluster
 
 
 test:
