@@ -8,8 +8,6 @@
     wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
     wordpress_owner: www-data
     wordpress_group: www-data
-    nginx_owner: nginx
-    nginx_group: nginx
 
   tasks:
     - name: ==> 0 - add host info

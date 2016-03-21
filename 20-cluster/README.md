@@ -1,8 +1,6 @@
 Ansible Lab #20 - Cluster
 ===
 
-[![Circle CI](https://circleci.com/gh/softarch-school/ansible-workshop.svg?style=shield)](https://circleci.com/gh/softarch-school/ansible-workshop) [![Build Status](https://travis-ci.org/softarch-school/ansible-workshop.svg?branch=master)](https://travis-ci.org/softarch-school/ansible-workshop)
-
 
 ## 實習重點
 
@@ -45,7 +43,5 @@ Separated by...
 ## 想接受挑戰嗎？
 
 - Avoid the "all hosts" `%` setting in the MySQL `GRANT PRIVILEGES` statement.
-
-- Use the [container links](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/) feature of Docker to simplify the testing Dockerfiles.
 
 - Use [Docker Compose](https://github.com/docker/compose) to simplify the testing job.
