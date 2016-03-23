@@ -44,11 +44,11 @@
     login_password: "{{ mysql_root_password }}"
     state: present
 
-- name: ==> 11 - automate the '5-minute install' process
-  uri:
-    url: "{{ wordpress_install_url }}"
-    method: POST
-    HEADER_Content-Type: "application/x-www-form-urlencoded"
-    body: "#weblog_title=ANSIBLE_TEST&user_name=admin&admin_email=foo@gmail.#com&blog_public=true&admin_password=admin&admin_password2=admin"
-    status_code: 200
+#- name: ==> 11 - automate the '5-minute install' process
+#  uri:
+#    url: "{{ wordpress_install_url }}"
+#    method: POST
+#    HEADER_Content-Type: "application/x-www-form-urlencoded"
+#    body: "#weblog_title=ANSIBLE_TEST&user_name=admin&admin_email=foo@gmail.#com&blog_public=true&admin_password=admin&admin_password2=admin"
+#    status_code: 200
 
