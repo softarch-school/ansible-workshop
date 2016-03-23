@@ -28,6 +28,10 @@ RUN sed -i -e 's/exit\s\s*101/exit 0/' /usr/sbin/policy-rc.d
 # ==> Specify requirements filename;  default = "requirements.yml"
 #ENV REQUIREMENTS  requirements.yml
 
+RUN echo "===> Installing curl for testing purpose..."  && \
+    DEBIAN_FRONTEND=noninteractive  \
+    apt-get install -y -f curl
+
 ENV PLAYBOOK setup.yml
 RUN ansible-playbook-wrapper -vvv --extra-vars "modify_hostname=false"
 
@@ -41,9 +45,9 @@ EXPOSE 80
 # test phase
 #
 
-RUN echo "===> Installing curl for testing purpose..."  && \
-    DEBIAN_FRONTEND=noninteractive  \
-    apt-get install -y -f curl
+#RUN echo "===> Installing curl for testing purpose..."  && \
+#    DEBIAN_FRONTEND=noninteractive  \
+#    apt-get install -y -f curl
 
 VOLUME [ "/data" ]
 
