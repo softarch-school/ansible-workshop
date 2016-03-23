@@ -1,0 +1,42 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+
+---
+- hosts: all
+  become: true
+
+  roles:
+    - williamyeh.nginx
+    - chusiang.php7
+    - geerlingguy.mysql
+    - darthwade.wordpress
+
+  vars:
+    hostname: mywordpress
+    modify_hostname: true
+    php_owner: nginx
+    php_group: nginx
+
+    mysql_root_password: secretsecret
+    wp_version: 4.4.2
+    wp_install_dir: '/usr/share/wordpress'
+    wp_db_name: 'wordpress'
+    wp_db_user: 'wordpressuser'
+    wp_db_password: 'wordpresspassword'
+    wordpress_path: "{{ wp_install_dir }}"
+    #wordpress_install_url: 127.0.0.1
+
+  handlers:
+    - name: restart php-fpm
+      include: handlers/main.yml
+
+  tasks:
+
+    - name: setting custom wordpress
+      include: tasks/wordpress-custom.yml
+
+    - name: DEBUG
+      command: echo "{{ hostname }}"
+
+    #- debug: msg="==> 10 - restart nginx"
+

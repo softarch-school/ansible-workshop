@@ -1,16 +1,3 @@
 - # @see https://galaxy.ansible.com/williamyeh/nginx/
   src: williamyeh.nginx
   path: roles/
-
-- # @see https://galaxy.ansible.com/chusiang/php7/
-  src: chusiang.php7
-  path: roles/
-
-- # @see https://galaxy.ansible.com/geerlingguy/mysql/
-  src: geerlingguy.mysql
-  path: roles/
-
-- # @see https://galaxy.ansible.com/darthwade/wordpress/
-  src: darthwade.wordpress
-  path: roles/
-
