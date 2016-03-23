@@ -1,0 +1,54 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+
+---
+
+- name: ==> 0 - add host info
+  lineinfile: dest=/etc/hosts line="10.0.0.10  {{ hostname }}" state=present
+  when: modify_hostname
+
+- debug: msg="==> 6 - install site conf file for wordpress"
+
+- name: check if "default.conf.bak" target exists
+  stat: path=/etc/nginx/conf.d/default.conf
+  register: filecheck
+
+- name: rename to "default.conf.bak", if any
+  command: mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
+  when: filecheck.stat.exists
+
+- name: copy wordpress site conf for nginx
+  template:
+    src: ./templates/nginx-wordpress.conf.j2
+    dest: /etc/nginx/conf.d/nginx-wordpress.conf
+  notify: restart nginx
+
+- debug: msg="==> 8 - create initial wordpress db"
+
+- name: install prerequisite for Ansible's mysql modules
+  apt: name=python-mysqldb state=present
+
+- name: create wordpress db
+  mysql_db:
+    name: "{{ wp_db_name }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: present
+
+- name: create wordpress user
+  mysql_user:
+    name:     "{{ wp_db_user }}"
+    password: "{{ wp_db_password }}"
+    priv:     "{{ wp_db_name }}.*:ALL"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: present
+
+- name: ==> 11 - automate the '5-minute install' process
+  uri:
+    url: "{{ wordpress_install_url }}"
+    method: POST
+    HEADER_Content-Type: "application/x-www-form-urlencoded"
+    body: "#weblog_title=ANSIBLE_TEST&user_name=admin&admin_email=foo@gmail.#com&blog_public=true&admin_password=admin&admin_password2=admin"
+    status_code: 200
+
