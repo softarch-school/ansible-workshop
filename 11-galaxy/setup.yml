@@ -1,8 +1,13 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+
+---
 - hosts: all
   become: true
 
   roles:
     - williamyeh.nginx
+    - geerlingguy.mysql
 
   vars:
     hostname: mywordpress
@@ -98,27 +103,7 @@
       notify: restart php-fpm
 
 
-
-    - debug: msg="==> 8 - install mysql"
-
-    - name: auto set root password for mysql
-      debconf:
-        name: 'mysql-server'
-        question: "{{ item }}"
-        vtype: 'password'
-        value: "{{ mysql_root_password }}"
-      with_items:
-        - mysql-server/root_password
-        - mysql-server/root_password_again
-
-    - name: install mysql
-      apt: name={{ item }} state=present
-      with_items:
-        - mysql-server
-        - mysql-client
-
-
-    - debug: msg="==> 9 - create initial wordpress db"
+    - debug: msg="==> 8 - create initial wordpress db"
 
     - name: install prerequisite for Ansible's mysql modules
       apt: name=python-mysqldb state=present
@@ -140,7 +125,7 @@
         state: present
 
 
-    - name: ==> 10 - set wordpress config
+    - name: ==> 9 - set wordpress config
       template:
         src: ./templates/wp-config.php.j2
         dest: "{{ wordpress_path }}/wp-config.php"
@@ -153,13 +138,14 @@
     - name: DEBUG
       command: echo "{{ hostname }}"
 
-    #- debug: msg="==> 11 - restart nginx"
+    #- debug: msg="==> 10 - restart nginx"
 
 
-    #- name: ==> 12 - automate the '5-minute install' process
+    #- name: ==> 11 - automate the '5-minute install' process
     #  uri:
     #    url: "{{ wordpress_install_url }}"
     #    method: POST
     #    HEADER_Content-Type: "application/x-www-form-urlencoded"
     #    body: "#weblog_title=ANSIBLE_TEST&user_name=admin&admin_email=foo@gmail.#com&blog_public=true&admin_password=admin&admin_password2=admin"
     #    status_code: 200
+
