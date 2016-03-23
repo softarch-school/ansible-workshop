@@ -6,3 +6,7 @@
   src: geerlingguy.mysql
   path: roles/
 
+- # @see https://galaxy.ansible.com/darthwade/wordpress/
+  src: darthwade.wordpress
+  path: roles/
+

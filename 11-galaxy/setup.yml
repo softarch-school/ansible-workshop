@@ -8,19 +8,20 @@
   roles:
     - williamyeh.nginx
     - geerlingguy.mysql
+    - darthwade.wordpress
 
   vars:
     hostname: mywordpress
     modify_hostname: true
-    wordpress_version: 4.4.2
-    wordpress_parent_path: /usr/share
-    wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
-    wordpress_owner: www-data
-    wordpress_group: www-data
+
     mysql_root_password: secretsecret
-    wordpress_db_name: wordpress
-    wordpress_db_user: wordpressuser
-    wordpress_db_password: wordpresspassword
+
+    wp_version: 4.4.2
+    wp_install_dir: '/usr/share/wordpress'
+    wp_db_name: 'wordpress'
+    wp_db_user: 'wordpressuser'
+    wp_db_password: 'wordpresspassword'
+    wordpress_path:        "{{ wp_install_dir }}"
 
 
   handlers:
@@ -49,22 +50,6 @@
       with_items:
         - php7.0-fpm
         - php7.0-mysql
-
-
-    - debug: msg="==> 5 - download and extract wordpress"
-
-    - name: download wordpress tarball
-      get_url:
-        url: "https://tw.wordpress.org/wordpress-{{ wordpress_version }}-zh_TW.tar.gz"
-        dest: /tmp/
-
-    - name: extract wordpress tarball
-      unarchive:
-        src: "/tmp/wordpress-{{ wordpress_version }}-zh_TW.tar.gz"
-        dest: "{{ wordpress_parent_path }}"
-        owner: "{{ wordpress_owner }}"
-        group: "{{ wordpress_group }}"
-        copy: no
 
 
     - debug: msg="==> 6 - install site conf file for wordpress"
@@ -110,29 +95,19 @@
 
     - name: create wordpress db
       mysql_db:
-        name: "{{ wordpress_db_name }}"
+        name: "{{ wp_db_name }}"
         login_user: root
         login_password: "{{ mysql_root_password }}"
         state: present
 
     - name: create wordpress user
       mysql_user:
-        name:     "{{ wordpress_db_user }}"
-        password: "{{ wordpress_db_password }}"
-        priv:     "{{ wordpress_db_name }}.*:ALL"
+        name:     "{{ wp_db_user }}"
+        password: "{{ wp_db_password }}"
+        priv:     "{{ wp_db_name }}.*:ALL"
         login_user: root
         login_password: "{{ mysql_root_password }}"
         state: present
-
-
-    - name: ==> 9 - set wordpress config
-      template:
-        src: ./templates/wp-config.php.j2
-        dest: "{{ wordpress_path }}/wp-config.php"
-        owner: "{{ wordpress_owner }}"
-        group: "{{ wordpress_group }}"
-      notify: restart nginx
-
 
 
     - name: DEBUG
