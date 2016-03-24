@@ -28,7 +28,8 @@ MAINTAINER William Yeh <william.pjyeh@gmail.com>
 #ENV REQUIREMENTS  requirements.yml
 
 RUN echo "===> Installing curl for testing purpose..."  && \
-    yum install -y curl initscripts
+    yum install -y curl initscripts openssh-server && \
+    pip install -U pip ansible
 
 # Environment for systemd
 ENV container=docker
