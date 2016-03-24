@@ -2,14 +2,14 @@
 # vim:ft=ansible :
 
 ---
-- hosts: all
+- hosts: localhost
   become: true
 
   roles:
     - williamyeh.nginx
     - chusiang.php7
     - geerlingguy.mysql
-    - darthwade.wordpress
+    - chusiang.wordpress
 
   vars:
     hostname: mywordpress
