@@ -1,3 +1,5 @@
 .vagrant
 roles
 setup.retry
+result-wordpress
+url
