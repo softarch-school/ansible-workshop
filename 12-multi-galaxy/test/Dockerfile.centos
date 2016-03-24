@@ -44,16 +44,13 @@ EXPOSE 80
 # test phase
 #
 
-#RUN echo "===> Installing curl for testing purpose..."  && \
-#    DEBIAN_FRONTEND=noninteractive  \
-#    apt-get install -y -f curl
-
 VOLUME [ "/data" ]
 
-CMD service mysql start       && \
-    service php7.0-fpm start  && \
-    service nginx start       && \
+CMD systemctl start mariadb    && \
+    systemctl start php-fpm    && \
+    systemctl start nginx      && \
     IP=`head -n 1 /etc/hosts | sed 's/\t.*//'`                      && \
     ansible-playbook-wrapper -vvv --extra-vars `echo hostname=$IP`  && \
     #curl -v http://localhost/  > /data/result  && \
     tail -f /dev/null
+
