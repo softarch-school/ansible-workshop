@@ -28,7 +28,7 @@ MAINTAINER William Yeh <william.pjyeh@gmail.com>
 #ENV REQUIREMENTS  requirements.yml
 
 RUN echo "===> Installing curl for testing purpose..."  && \
-    yum install -y curl
+    yum install -y curl initscripts
 
 ENV PLAYBOOK setup.yml
 RUN ansible-playbook-wrapper -vvv --extra-vars "modify_hostname=false"
