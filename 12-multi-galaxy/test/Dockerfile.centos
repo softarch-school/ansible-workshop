@@ -30,6 +30,9 @@ MAINTAINER William Yeh <william.pjyeh@gmail.com>
 RUN echo "===> Installing curl for testing purpose..."  && \
     yum install -y curl initscripts
 
+# Environment for systemd
+ENV container=docker
+
 ENV PLAYBOOK setup.yml
 RUN ansible-playbook-wrapper -vvv --extra-vars "modify_hostname=false"
 
