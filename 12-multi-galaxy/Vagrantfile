@@ -44,4 +44,22 @@ Vagrant.configure("2") do |config|
         SHELL
     end
 
+    config.vm.define "docker-centos" do |node|
+        node.vm.box = "williamyeh/centos7-docker"
+
+        node.vm.provision "shell", inline: <<-SHELL
+            cd /vagrant
+
+            docker build  -f test/Dockerfile.centos  -t wordpress   .
+            docker run -d --name wordpress-centos  wordpress-centos
+            sleep 60
+
+            IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+            cat url  |  xargs -t -n 1 curl -v -o result-wordpress-centos
+
+            echo "==> Validating the test results..."
+            grep '<title>ANSIBLE_TEST' result-wordpress-centos
+        SHELL
+    end
+
 end
