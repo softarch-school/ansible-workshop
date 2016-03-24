@@ -1,7 +1,7 @@
 Ansible Workshop - Hands-On Materials
 ===
 
-[![Circle CI](https://circleci.com/gh/softarch-school/ansible-workshop.svg?style=shield)](https://circleci.com/gh/softarch-school/ansible-workshop) [![Build Status](https://travis-ci.org/softarch-school/ansible-workshop.svg?branch=master)](https://travis-ci.org/softarch-school/ansible-workshop)
+[![Circle CI](https://circleci.com/gh/chusiang/ansible-workshop.svg?style=shield)](https://circleci.com/gh/chusiang/ansible-workshop) [![Build Status](https://travis-ci.org/chusiang/ansible-workshop.svg?branch=develop)](https://travis-ci.org/chusiang/ansible-workshop)
 
 
 
