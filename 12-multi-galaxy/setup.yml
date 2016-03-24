@@ -2,7 +2,7 @@
 # vim:ft=ansible :
 
 ---
-- hosts: localhost
+- hosts: all
   become: true
 
   roles:
@@ -14,13 +14,28 @@
   vars:
     hostname: mywordpress
     modify_hostname: true
+
+    # PHP-FPM
     php_owner: nginx
     php_group: nginx
 
+    # MariaDB
+    mysql_root_password: secret
+    mysql_root_password_update: no
+    mysql_enabled_on_startup: yes
     mysql_packages:
       - mariadb-server
-    mysql_root_password: secretsecret
+    mysql_daemon: mariadb
+    mysql_log_error: /var/log/mariadb/mariadb.log
+    mysql_syslog_tag: mariadb
+    mysql_pid_file: /var/run/mariadb/mariadb.pid
+    mysql_users:
+      - name: root
+        host: "%"
+        password: secret
+        priv: "*.*:ALL"
 
+    # WordPress
     wp_version: 4.4.2
     wp_install_dir: '/usr/share/wordpress'
     wp_db_name: 'wordpress'
