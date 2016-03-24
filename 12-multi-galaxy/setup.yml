@@ -34,8 +34,8 @@
     wp_version: 4.4.2
     wp_install_dir: '/usr/share/wordpress'
     wp_db_name: 'wordpress'
-    wp_db_user: 'wordpressuser'
-    wp_db_password: 'wordpresspassword'
+    wp_db_user: 'root'
+    wp_db_password: 'secret'
     wordpress_path: "{{ wp_install_dir }}"
     #wordpress_install_url: 127.0.0.1
 
