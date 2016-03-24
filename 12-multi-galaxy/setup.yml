@@ -17,7 +17,10 @@
     php_owner: nginx
     php_group: nginx
 
+    mysql_packages:
+      - mariadb-server
     mysql_root_password: secretsecret
+
     wp_version: 4.4.2
     wp_install_dir: '/usr/share/wordpress'
     wp_db_name: 'wordpress'
@@ -31,12 +34,13 @@
       include: handlers/main.yml
 
   tasks:
-
     - name: setting custom wordpress
       include: tasks/wordpress-custom.yml
 
-    - name: DEBUG
-      command: echo "{{ hostname }}"
+    - name: install test tools
+      include: test/install-test-tools.yml
 
-    #- debug: msg="==> 10 - restart nginx"
+    - name: print var of 'hostname'
+      debug:
+        msg: "{{ hostname }}"
 
