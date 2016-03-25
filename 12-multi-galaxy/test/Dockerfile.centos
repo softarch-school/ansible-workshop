@@ -9,7 +9,7 @@
 
 
 # pull base image
-FROM williamyeh/ansible:centos6-onbuild
+FROM williamyeh/ansible:centos7-onbuild
 
 MAINTAINER William Yeh <william.pjyeh@gmail.com>
 
