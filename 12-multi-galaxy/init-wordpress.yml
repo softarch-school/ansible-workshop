@@ -3,7 +3,7 @@
 
   vars:
     hostname: mywordpress
-    wordpress_install_url: "http://{{ hostname }}/wp-admin/install.php?step=2"
+    wordpress_install_url: "http://127.0.0.1/wp-admin/install.php?step=2"
     blog_title: ANSIBLE_TEST
     blog_user: admin
     blog_password: admin
@@ -12,11 +12,14 @@
   tasks:
     - debug: msg="==> 12 - automate the '5-minute install' process"
 
-    - name: install dependency - httplib2
+    - name: install dependency - httplib2 on ubuntu
       apt: name=python-httplib2 state=present
-      #pip: name=httplib2
+      when: ansible_distribution|lower == "ubuntu"
 
-    # like POST, curl --data, ....
+    - name: install dependency - httplib2 on centos
+      yum: name=python-httplib2 state=present
+      when: ansible_distribution|lower == "centos"
+
     - name: send POST to WordPress install wizard
       uri:
         url: "{{ wordpress_install_url }}"
@@ -24,3 +27,4 @@
         HEADER_Content-Type: "application/x-www-form-urlencoded"
         body: "weblog_title={{ blog_title }}&user_name={{ blog_user }}&admin_email={{ blog_email }}&blog_public=true&admin_password={{ blog_password }}&admin_password2={{ blog_password }}"
         status_code: 200
+

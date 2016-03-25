@@ -1,4 +1,8 @@
+# vim: ft=ansible :
+
+---
 - hosts: all
+  # defaut will switch user to root, like su -.
   become: true
 
   vars:
@@ -6,5 +10,6 @@
 
   tasks:
     - name: ==> 0 - add host info
+      # find dest file and check/add one line. like sed, but it will check and no replay.
       lineinfile: dest=/etc/hosts line="10.0.0.10  {{ hostname }}" state=present
 

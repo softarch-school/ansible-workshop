@@ -1,0 +1,69 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+
+---
+- hosts: all
+  become: true
+
+  roles:
+    - williamyeh.nginx
+    - chusiang.php7
+    - geerlingguy.mysql
+    - chusiang.wordpress
+
+  vars:
+    hostname: mywordpress
+    modify_hostname: true
+
+    nginx_in_selinux: false
+
+    # PHP-FPM
+    php_owner: nginx
+    php_group: nginx
+    #php_socket_path: /run/php-fpm/www.sock
+
+    # MariaDB
+    mysql_root_password: secret
+    mysql_root_password_update: no
+    mysql_enabled_on_startup: yes
+    mysql_packages:
+      - mariadb-server
+    mysql_daemon: mariadb
+    mysql_log_error: /var/log/mariadb/mariadb.log
+    mysql_syslog_tag: mariadb
+    mysql_pid_file: /var/run/mariadb/mariadb.pid
+
+    # WordPress
+    wp_version: 4.4.2
+    wp_install_dir: '/usr/share/wordpress'
+    wp_db_name: 'wordpress'
+    wp_db_user: 'root'
+    wp_db_password: "{{ mysql_root_password }}"
+    wordpress_path: "{{ wp_install_dir }}"
+    #wordpress_install_url: 127.0.0.1
+
+  tasks:
+    - name: disable selinux on centos
+      selinux: state=disabled
+      when: ansible_distribution|lower == "centos"
+
+    - name: setting custom wordpress
+      include: tasks/wordpress-custom.yml
+
+    #- name: install test tools
+    #- include: test/install-test-tools.yml
+
+    - name: print var of 'hostname'
+      debug:
+        msg: "{{ hostname }}"
+
+  handlers:
+    #- name: restart php7-fpm
+    #  service: name=php7.0-fpm enabled=yes state=restarted
+    #
+    #- name: restart php7-fpm on centos
+    #  service: name=php-fpm enabled=yes state=restarted
+
+    - name: restart nginx for wordpress
+      service: name=nginx enabled=yes state=restarted
+

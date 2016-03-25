@@ -49,6 +49,9 @@
 
     - debug: msg="==> 5 - download and extract wordpress"
 
+    # like wget, curl.
+    #
+    # Ansible 2.0 support extract with url.
     - name: download wordpress tarball
       get_url:
         url: "https://tw.wordpress.org/wordpress-{{ wordpress_version }}-zh_TW.tar.gz"
@@ -65,10 +68,12 @@
 
     - debug: msg="==> 6 - install site conf file for wordpress"
 
+    # check virtual default host file state.
     - name: check if "default.conf.bak" target exists
       stat: path=/etc/nginx/conf.d/default.conf
       register: filecheck
 
+    # if filecheck is true, run this.
     - name: rename to "default.conf.bak", if any
       command: mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
       when: filecheck.stat.exists

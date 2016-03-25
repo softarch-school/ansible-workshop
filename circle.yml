@@ -7,30 +7,54 @@ dependencies:
     - docker info
     - docker version
 
-    - docker build  -f 06-ci/test/Dockerfile      -t wordpress06   06-ci
-    - docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
-    - docker build  -f 11-galaxy/test/Dockerfile  -t wordpress11   11-galaxy
+    #- docker build  -f 06-ci/test/Dockerfile      -t wordpress06   06-ci
+    #- docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
+    #- docker build  -f 11-galaxy/test/Dockerfile        -t wordpress11   11-galaxy
+    #- docker build  -f 12-multi-galaxy/test/Dockerfile  -t wordpress12   12-multi-galaxy
+    - docker build  -f 12-multi-galaxy/test/Dockerfile.centos  -t wordpress12-centos  12-multi-galaxy
+    #- docker build  -f 20-cluster/test/Dockerfile -t wordpress20   20-cluster
 
 
 test:
   override:
-    - docker run -d --name wordpress06   wordpress06
-    - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress06) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress06
+    #- docker run -d --name wordpress06   wordpress06
+    #- sleep 60
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress06) ; echo http://$IP:80/ > url
+    #- cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress06
 
-    - docker run -d --name wordpress10   wordpress10
-    - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress10) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress10
+    #- docker run -d --name wordpress10   wordpress10
+    #- sleep 60
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress10) ; echo http://$IP:80/ > url
+    #- cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress10
 
-    - docker run -d --name wordpress11   wordpress11
+    #- docker run -d --name wordpress11   wordpress11
+    #- sleep 60
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress11) ; echo http://$IP:80/ > url
+    #- cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress11
+
+    #- docker run -d --name wordpress12   wordpress12
+    #- sleep 60
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress12) ; echo http://$IP:80/ > url
+    #- cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress12
+
+    - docker run -d --name wordpress12-centos   wordpress12-centos
     - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress11) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress11
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress12-centos) ; echo http://$IP:80/ > url
+    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress12-centos
+
+    #- docker run -d --name db20  db20
+    #- sleep 60
+    #- docker run -d --name wordpress20  --link db20:MYSQL_ADDRESS  wordpress20
+    #- sleep 300
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress20) ; echo http://$IP:80/ > url
+    #- cat url  |  xargs -t -n 1 curl -v -o result-wordpress20
 
 
     - echo "==> Validating the test results..."
-    - grep '<title>ANSIBLE_TEST' result-wordpress06
-    - grep '<title>ANSIBLE_TEST' result-wordpress10
-    - grep '<title>ANSIBLE_TEST' result-wordpress11
+    #- grep '<title>ANSIBLE_TEST' result-wordpress06
+    #- grep '<title>ANSIBLE_TEST' result-wordpress10
+    #- grep '<title>ANSIBLE_TEST' result-wordpress11
+    #- grep '<title>ANSIBLE_TEST' result-wordpress12
+    - grep '<title>ANSIBLE_TEST' result-wordpress12-centos
+    #- grep '<title>ANSIBLE_TEST' result-wordpress20
+

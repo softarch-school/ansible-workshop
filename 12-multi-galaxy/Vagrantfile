@@ -1,0 +1,66 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+    # main & default: normal OS series...
+    #config.vm.define "main" do |node|
+    #    node.vm.box = "ubuntu/trusty64"
+    #    node.vm.network "private_network", ip: "10.0.0.10"
+
+    #    node.vm.provision "ansible" do |ansible|
+    #        ansible.playbook = "setup.yml"
+    #        ansible.sudo = true
+    #    end
+    #end
+
+    config.vm.define "main.centos", primary: true do |node|
+        node.vm.box = "bento/centos-7.2"
+        node.vm.network "private_network", ip: "10.0.0.10"
+        node.vm.network "forwarded_port", guest: 80, host: 8080
+
+        node.vm.provision "ansible" do |ansible|
+            ansible.playbook = "setup.yml"
+            ansible.sudo = true
+        end
+    end
+
+
+    # docker: for auto build & testing (e.g., Travis CI)
+    config.vm.define "docker" do |node|
+        node.vm.box = "williamyeh/ubuntu-trusty64-docker"
+
+        node.vm.provision "shell", inline: <<-SHELL
+            cd /vagrant
+
+            docker build  -f test/Dockerfile  -t wordpress   .
+            docker run -d --name wordpress  wordpress
+            sleep 60
+
+            IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+            cat url  |  xargs -t -n 1 curl -v -o result-wordpress
+
+            echo "==> Validating the test results..."
+            grep '<title>ANSIBLE_TEST' result-wordpress
+        SHELL
+    end
+
+    config.vm.define "docker-centos" do |node|
+        node.vm.box = "williamyeh/centos7-docker"
+
+        node.vm.provision "shell", inline: <<-SHELL
+            cd /vagrant
+
+            docker build  -f test/Dockerfile.centos  -t wordpress   .
+            docker run -d --name wordpress-centos  wordpress-centos
+            sleep 60
+
+            IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress) ; echo http://$IP:80/ > url
+            cat url  |  xargs -t -n 1 curl -v -o result-wordpress-centos
+
+            echo "==> Validating the test results..."
+            grep '<title>ANSIBLE_TEST' result-wordpress-centos
+        SHELL
+    end
+
+end

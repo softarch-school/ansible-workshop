@@ -1,0 +1,24 @@
+#!/usr/bin/env ansible-playbook
+# vim:ft=ansible :
+
+---
+
+# Ubuntu
+- name: install test tools on ubuntu
+  sudo: True
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - w3m
+    - ansible
+  when: ansible_distribution|lower == "ubuntu"
+
+
+# CentOS
+- name: install test tools on centos
+  sudo: True
+  yum: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - w3m
+    - ansible
+  when: ansible_distribution|lower == "centos"
+

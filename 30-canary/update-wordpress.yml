@@ -22,6 +22,9 @@
     #  command: "ifconfig -a" 
     #  delegate_to: lb
 
+    #
+    # 更新前先關閉該主機的 HAProxy。
+    #
     - name: disable HAProxy for this app server under updating
       haproxy:
         state: disabled
