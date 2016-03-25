@@ -9,6 +9,7 @@
   apt: name={{ item }} update_cache=yes state=latest
   with_items:
     - w3m
+    - ansible
   when: ansible_distribution|lower == "ubuntu"
 
 
@@ -18,4 +19,6 @@
   yum: name={{ item }} update_cache=yes state=latest
   with_items:
     - w3m
+    - ansible
   when: ansible_distribution|lower == "centos"
+
