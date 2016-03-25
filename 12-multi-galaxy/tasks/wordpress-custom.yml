@@ -17,11 +17,23 @@
   command: mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
   when: filecheck.stat.exists
 
-- name: copy wordpress site conf for nginx
+- name: copy wordpress site conf for nginx on ubuntu
+  vars:
+    php_socket_path: /var/run/php/php7.0-fpm.sock
   template:
     src: ./templates/nginx-wordpress.conf.j2
     dest: /etc/nginx/conf.d/nginx-wordpress.conf
-  notify: restart nginx
+  when: ansible_pkg_mgr == "apt"
+  notify: restart nginx for wordpress
+
+- name: copy wordpress site conf for nginx on centos
+  vars:
+    php_socket_path: /run/php-fpm/www.sock
+  template:
+    src: ./templates/nginx-wordpress.conf.j2
+    dest: /etc/nginx/conf.d/nginx-wordpress.conf
+  when: ansible_pkg_mgr == "yum"
+  notify: restart nginx for wordpress
 
 - debug: msg="==> 8 - create initial wordpress db"
 
