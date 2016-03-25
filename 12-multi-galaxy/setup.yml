@@ -20,6 +20,7 @@
     # PHP-FPM
     php_owner: nginx
     php_group: nginx
+    #php_socket_path: /run/php-fpm/www.sock
 
     # MariaDB
     mysql_root_password: secret
@@ -41,10 +42,6 @@
     wordpress_path: "{{ wp_install_dir }}"
     #wordpress_install_url: 127.0.0.1
 
-  handlers:
-    - name: restart php-fpm
-      include: handlers/main.yml
-
   tasks:
     - name: disable selinux on centos
       selinux: state=disabled
@@ -59,4 +56,14 @@
     - name: print var of 'hostname'
       debug:
         msg: "{{ hostname }}"
+
+  handlers:
+    #- name: restart php7-fpm
+    #  service: name=php7.0-fpm enabled=yes state=restarted
+    #
+    #- name: restart php7-fpm on centos
+    #  service: name=php-fpm enabled=yes state=restarted
+
+    - name: restart nginx for wordpress
+      service: name=nginx enabled=yes state=restarted
 
