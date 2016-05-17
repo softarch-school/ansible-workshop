@@ -31,6 +31,8 @@ Case study: WordPress.
 
 ## Usage
 
+### In the class
+
 1. Fork this project.
 
 2. Clone your fork:
@@ -43,6 +45,20 @@ Case study: WordPress.
 3. Follow the SOP to be taught in the class
    (a.k.a., 【圍繞在組態管理技術上的自動化手法 <sup>TM</sup>】）
    to go through each lab.
+
+
+### After the class
+
+1. Re-visit each lab. Make sure you can *demo* all scenarios on your own.
+
+2. Re-visit each lab. But this time:
+   a. Try to *write your own version* of Ansible playbooks!!!
+   b. Read the `README` hints of each lab, if necessary;
+   c. Try to tackle the 【想接受挑戰嗎？】 parts on your own.
+
+3. Remember:
+   > “天經地義的事持續做，水準會提升。”
+   >  &nbsp;&nbsp;&nbsp; by 櫻木 建二
 
 
 ## Note for Windows users

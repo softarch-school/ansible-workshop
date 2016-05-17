@@ -1,12 +1,15 @@
 APP_SERVERS = [
     { :name => "app1", :ip => "10.0.0.30",
-      :mem => "256"  , :box => "ubuntu/trusty64"
+      :mem => "256"  , :box => "ubuntu/trusty64",
+      :autostart => true
     },
     { :name => "app2", :ip => "10.0.0.31",
-      :mem => "256"  , :box => "ubuntu/trusty64"
+      :mem => "256"  , :box => "ubuntu/trusty64",
+      :autostart => true
     },
     { :name => "app3", :ip => "10.0.0.32",
-      :mem => "256"  , :box => "ubuntu/trusty64"
+      :mem => "256"  , :box => "ubuntu/trusty64",
+      :autostart => false
     }
 ]
 
@@ -34,7 +37,7 @@ Vagrant.configure("2") do |config|
     # app servers
     APP_SERVERS.each do |opts|
 
-        config.vm.define opts[:name] do |node|
+        config.vm.define opts[:name], autostart: opts[:autostart]  do |node|
             node.vm.box = opts[:box]
             node.vm.network "private_network", ip: opts[:ip]
 

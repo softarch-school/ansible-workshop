@@ -2,6 +2,17 @@ Ansible Lab #21 - High Availability
 ===
 
 
+## Load Balancing：觀念篇
+
+Load balancing 是現代軟體架構者的必備知識。不僅是字面上「負載均衡／平衡」的作用而已，更是 high availability (HA)、zero-downtime deployment 的重要元素。
+
+所以，在許多現代化軟體架構的場合，都可以看到 load balancer 的身影。 
+
+這段教學影片中，我介紹 load balancing 所扮演的角色，以及常見的運用場景。
+
+► 影片全長 7 分鐘: http://school.soft-arch.net/courses/vm-for-devops/lectures/964514
+
+
 ## 實習重點
 
 ### Topology
@@ -50,7 +61,7 @@ See also Vagrant official document:
 
 ## 想接受挑戰嗎？
 
-- The WordPress application is stateful. You should modify the infrastructure in either way:
+- The WordPress application is *stateful*. You should modify the infrastructure in either way:
 
   1. In the HAProxy part: use the sticky session mechanism.
 

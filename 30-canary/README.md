@@ -2,9 +2,7 @@ Ansible Lab #30 - Canary Deployment
 ===
 
 
-## 實習重點
-
-### Advanced deployment mechanisms
+## Advanced deployment mechanisms
 
 Quote [Martin Fowler on Delivery](http://martinfowler.com/delivery.html):
 
@@ -21,6 +19,17 @@ Fancy strategies:
 
 For more info, see the outstanding book *[Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation](http://www.amazon.com/gp/product/0321601912)*.
 
+
+### Canary Deployment：觀念篇
+
+如果懶得研讀上述文章，請看看我錄的教學影片：
+
+► 影片全長 11 分鐘: http://school.soft-arch.net/courses/vm-for-devops/lectures/964516
+
+
+
+
+## 實習重點
 
 ### Topology
 
