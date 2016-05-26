@@ -17,16 +17,19 @@ Case study: WordPress.
 ### Basic configuration level
 
 - Basic automation via shell script.
-- Step-by-step rewritten to workable Ansible playbooks.
-- Refactoring.
-- Ansible Galaxy.
-- Continuous integration of infrastructure via Travis CI and CircleCI.
+- Step-by-step rewritten to workable Ansible playbooks ([01-basic](01-basic), [02-pkgmgr](02-pkgmgr), [03-deploy](03-deploy), [04-db](04-db), [05-success](05-success)).
+- Continuous integration of infrastructure via Travis CI and CircleCI ([06-ci](06-ci)).
+
+### Intermediate level
+
+- Refactoring ([10-role](10-role)).
+- Ansible Galaxy ([11-galaxy](11-galaxy)).
 
 ### Advanced architecture level
 
-- Cluster architecture.
-- HA (high availability) architecture.
-- Continuous deployment demo with canary deployment.
+- Cluster architecture ([20-cluster](20-cluster)).
+- HA (high availability) architecture ([21-ha](21-ha)).
+- Continuous deployment demo with canary deployment ([30-canary](30-canary)).
 
 
 ## Usage
@@ -52,12 +55,15 @@ Case study: WordPress.
 1. Re-visit each lab. Make sure you can *demo* all scenarios on your own.
 
 2. Re-visit each lab. But this time:
+
    a. Try to *write your own version* of Ansible playbooks!!!
    b. Read the `README` hints of each lab, if necessary;
    c. Try to tackle the 【想接受挑戰嗎？】 parts on your own.
 
 3. Remember:
+
    > “天經地義的事持續做，水準會提升。”
+
    >  &nbsp;&nbsp;&nbsp; by 櫻木 建二
 
 
