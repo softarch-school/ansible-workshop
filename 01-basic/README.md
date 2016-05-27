@@ -15,7 +15,7 @@ Ansible Lab #01 - Basic
 
 ► 影片全長 15 分鐘: http://school.soft-arch.net/courses/ansible/lectures/737129
 
-
+注意：其中① 「Ansible → Vagrant」操作動線，有一個初學者常犯的錯誤。欲避免，請設定以下環境變數：`ANSIBLE_HOST_KEY_CHECKING=false` 。
 
 
 ** [Ansible 第二式] 用 Ansible 設定雲端主機組態／ **
@@ -62,7 +62,13 @@ Ansible Lab #01 - Basic
 - 以 Ansible 為主軸的使用法：`ansible-playbook`
 - 以 Vagrant provisioning 為主軸的使用法：`vagrant provision`
 
-- idempotent!
+再次提醒：其中「以 Ansible 為主軸的使用法」，有一個初學者常犯的錯誤。欲避免，請設定以下環境變數：`ANSIBLE_HOST_KEY_CHECKING=false` 。
+
+
+### Idempotence 觀念
+
+- Idempotent (adj.)
+- Idempotence (n.)
 
 
 ### Quote
