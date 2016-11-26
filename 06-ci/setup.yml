@@ -4,7 +4,7 @@
   vars:
     hostname: mywordpress
     modify_hostname: true
-    wordpress_version: 4.4.2
+    wordpress_version: 4.6.1
     wordpress_parent_path: /usr/share
     wordpress_path:        "{{ wordpress_parent_path }}/wordpress"
     wordpress_owner: www-data
